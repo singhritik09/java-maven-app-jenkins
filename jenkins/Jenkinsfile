@@ -18,7 +18,7 @@ pipeline {
         }
         stage('Deliver') {
             steps {
-                echo 'Delivered application'
+                echo 'Delivered application from new branch'
                 sh './jenkins/scripts/deliver.sh'
             }
         }
