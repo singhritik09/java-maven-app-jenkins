@@ -2,8 +2,8 @@ pipeline {
     agent any
     stages {
         stage('Build') {
-            steps {
-                sh 'mvn -B -DskipTests clean package'
+            docker.image('maven:latest').inside {
+                sh 'mvn clean package'
             }
         }
         stage('Test') {
