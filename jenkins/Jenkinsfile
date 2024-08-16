@@ -2,8 +2,13 @@ pipeline {
     agent any
     stages {
         stage('Build') {
-            docker.image('maven:latest').inside {
-                sh 'mvn clean package'
+            steps {
+                sh 'mvn -B -DskipTests clean package'
+                script {
+                    if (sh(returnStatus: true, script: 'mvn -q -DforceStdout help:evaluate -Dexpression=project.version').trim() != '1.0-SNAPSHOT') {
+                        error 'Project version is not 1.0-SNAPSHOT. Aborting pipeline!'
+                    }
+                }
             }
         }
         stage('Test') {
